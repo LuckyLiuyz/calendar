@@ -70,7 +70,8 @@ ul {
 }
 
 .item-prev-month,
-.item-next-month {
+.item-next-month,
+.item-after-today {
   color: #9b9b9b;
   opacity: .5;
 }
@@ -166,3 +167,5 @@ ul {
   background-size: .72rem .89rem;
   text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
 }
+
+/* 大于当前日期 */

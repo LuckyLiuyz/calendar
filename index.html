@@ -11,7 +11,7 @@
 	  <div class="container">
 	    <div class="calendar-select">
 	      <span class="prev-month">&lt;</span>
-	      <span class="year-month-show" data-year="2017" data-month="09">2017年09月</span>
+	      <span class="year-month-show" data-year="" data-month=""></span>
 	      <span class="next-month">&gt;</span>
 	    </div>
 	    <div class="calendar-container">
@@ -41,7 +41,7 @@
       {
         date: '2017-08-30',
         clockIn: '1',
-        diary: "打卡17"
+        diary: "打卡30"
       },
       {
         date: '2017-09-17',
@@ -51,7 +51,7 @@
       {
         date: '2017-09-18',
         clockIn: '2',
-        diary: "打卡18"
+        diary: "请假18"
       },
       {
         date: '2017-09-19',
@@ -63,25 +63,25 @@
         date: '2017-09-20',
         clockIn: '2',
         star: '0',
-        diary: "打卡20"
+        diary: "请假20"
       },
       {
         date: '2017-09-21',
         clockIn: '1',
         star: '1',
-        diary: "打卡20"
+        diary: "打卡21"
       },
       {
         date: '2017-11-01',
         clockIn: '2',
         star: '0',
-        diary: "打卡20"
+        diary: "请假01"
       },
       {
         date: '2017-11-02',
-        clockIn: '2',
+        clockIn: '1',
         star: '1',
-        diary: "打卡20"
+        diary: "打卡02"
       }
   ];
   
@@ -91,10 +91,18 @@
       $('html').css('font-size', $(window).width() / 1080 * 100 + 'px');
     }
     var objNowDate = moment();
+    var date = new Date(objNowDate); 
+    var getFullYear = objNowDate.format('YYYY');    //获取完整的年份(4位,1970-????)
+    var getMonth = objNowDate.format('MM');        //获取当前月份(0-11,0代表1月),再加一即可；
+
+    $('.year-month-show').attr('data-year', getFullYear)
+    $('.year-month-show').attr('data-month', getMonth)
+    $('.year-month-show').html(getFullYear +'-'+ getMonth)
+    var year = getFullYear;
+    var month = getMonth;
+    changeMonth(year, month, clockInList); 
+
     var objDate = moment(startDate);
-    var year = $('.year-month-show').attr('data-year');
-    var month = $('.year-month-show').attr('data-month');
-    changeMonth(year, month, clockInList);
     if (objNowDate.isBefore(startDate)) {
       limitMonth = objNowDate.format('YYYY-MM');
     }
@@ -130,6 +138,20 @@
       $('.year-month-show').html(result.year + "年" + result.month + "月");
       changeMonth(result.year, result.month, clockInList);
     });
+
+
+    $('body').on('click','.item[data-date]', function(e){
+        let dateStr = e.target.getAttribute('data-date');       
+        if(!_.isEmpty(dateStr)){
+          var index =  _.findIndex(clockInList, {date: dateStr});//拿着日期去列表中搜索           
+          if(index > -1){
+            let clockInObj = clockInList[index]; 
+            console.log(clockInObj); 
+            alert(clockInObj.date + ', ' + clockInObj.diary);
+            //Dialog.showDialog(); .....         
+          }
+        }
+    })
   });
   
   /*
@@ -221,12 +243,10 @@
     if (month.length == 1) {
       month = "0" + month;
     }
-    var days = moment(year + "-" + month, "YYYY-MM").daysInMonth();
-    
+    var days = moment(year + "-" + month, "YYYY-MM").daysInMonth();    
     var objDate = moment(year + "-" + month + "-01");
     var $calendar = $(".calendar-date");
     $calendar.empty();
-
     
     //实现将本月第一周中属于上一个月份的日期虚化
     if (objDate.weekday() > 0) {
@@ -241,13 +261,12 @@
         var i1 =  _.findIndex(clockInList, {date: objDate2.format('YYYY-MM-DD').toString()});//拿着日期去列表中搜索           
         if(i1 > -1){
           let clockInObj = clockInList[i1];
-          $calendar.prepend("  <li class='item item-prev-month' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='" + clockInObj.clockIn + "' data-star='" + clockInObj.star + "'>" + objDate2.date() + "</li>\n");
+          $calendar.prepend("  <li class='item item-prev-month' data-date='" + objDate2.format('YYYY-MM-DD') + "' data-status='" + clockInObj.clockIn + "' data-star='" + clockInObj.star + "'>" + objDate2.date() + "</li>\n");
         }else{
-          $calendar.prepend("  <li class='item item-prev-month' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='0'>" + objDate2.date() + "</li>\n");
+          $calendar.prepend("  <li class='item item-prev-month' data-date='" + objDate2.format('YYYY-MM-DD') + "' data-status='0'>" + objDate2.date() + "</li>\n");
         }            
       }
     }
-
 
     var index = 0;
     var nowDate = moment().format('YYYY-MM-DD');
@@ -266,20 +285,23 @@
           $calendar.append("  <li class='item item-today' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='0'>" + objDate.date() + "</li>\n");
         }             
       } else {
-        var i3 =  _.findIndex(clockInList, {date: objDate.format('YYYY-MM-DD').toString()});//拿着日期去列表中搜索           
-        if(i3 > -1){
-          let clockInObj = clockInList[i3];
-          $calendar.append("  <li class='item' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='" + clockInObj.clockIn + "' data-star='" + clockInObj.star + "'>" + objDate.date() + "</li>\n");
+        if(nowDate < objDate.format('YYYY-MM-DD')){
+          $calendar.append("  <li class='item item-after-today'>" + objDate.date() + "</li>\n");
         }else{
-          $calendar.append("  <li class='item' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='0'>" + objDate.date() + "</li>\n");
-        }               
+          var i3 =  _.findIndex(clockInList, {date: objDate.format('YYYY-MM-DD').toString()});//拿着日期去列表中搜索           
+          if(i3 > -1){
+            let clockInObj = clockInList[i3];
+            $calendar.append("  <li class='item' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='" + clockInObj.clockIn + "' data-star='" + clockInObj.star + "'>" + objDate.date() + "</li>\n");
+          }else{
+            $calendar.append("  <li class='item' data-date='" + objDate.format('YYYY-MM-DD') + "' data-status='0'>" + objDate.date() + "</li>\n");
+          } 
+        }
       }
 
       objDate = objDate.add(1, 'd');
       index++;
     }
-    
-    
+        
     //实现将本月最后一周中属于下一个月份的日期虚化
     if (objDate.weekday() > 0) {
       var objDate2 = objDate.clone();
