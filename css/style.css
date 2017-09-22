@@ -1,0 +1,168 @@
+
+html {
+  font-size: 100px;
+}
+.container {
+  position: relative;
+  width: 10.8rem;
+  height: 10.8rem;
+  margin: auto;
+}
+.calendar-select {
+  display: flex;
+  width: 9.1rem;
+  margin: auto;
+  align-items: center;
+}
+.year-month-show {
+  flex: 1;
+  font-size: .4rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.prev-month,
+.next-month {
+  flex: inherit;
+  width: .3rem;
+  font-size: .4rem;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
+}
+.prev-month.disabled,
+.next-month.disabled {
+  color: #888;
+}
+.calendar-container {
+  width: 7.7rem;
+  margin: auto;
+}
+ul {
+  list-style: none;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0;
+}
+.calendar-date {
+  width: 100%;
+  height: 3rem;
+}
+.calendar-title .item,
+.calendar-date .item {
+  float: left;
+  width: 1.1rem;
+  height: 1.1rem;
+  line-height: 1.1rem;
+  text-align: center;
+  font-size: .44rem;
+  box-sizing: border-box;
+}
+.calendar-title .item {
+  color: #444444;
+}
+.calendar-title .item:nth-child(7n),
+.calendar-title .item:nth-child(7n+1),
+.calendar-date .item:nth-child(7n),
+.calendar-date .item:nth-child(7n+1)  {
+  color: #d3291b;
+}
+
+.item-prev-month,
+.item-next-month {
+  color: #9b9b9b;
+  opacity: .5;
+}
+.item-today {
+  font-weight: bold;
+  font-size: .6rem !important;
+}
+.item[data-star="1"]{
+  background: url(../img/star.png) no-repeat center center;
+  background-size: .6rem .74rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+
+
+
+/* 非当天：未打卡-非奖励日 */
+.item[data-status="0"] {
+  background: url(../img/clockIn0.png) no-repeat center center;
+  background-size: .5rem .5rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+/* 非当天：打卡-非奖励日 */
+.item[data-status="1"] {
+  background: url(../img/clockIn1.png) no-repeat center center;
+  background-size: .58rem .43rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+} 
+/* 非当天：请假-非奖励日 */
+.item[data-status="2"] {
+  background: url(../img/clockIn2.png) no-repeat center center;
+  background-size: .5rem .37rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+
+
+/* 非当天：未打卡-奖励日 */
+.item[data-star="1"][data-status="0"] {
+  background: url(../img/star-clockIn0.png) no-repeat center center;
+  background-size: .6rem .74rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+/* 非当天：打卡-奖励日 */
+.item[data-star="1"][data-status="1"] {
+  background: url(../img/star-clockIn1.png) no-repeat center center;
+  background-size: .6rem .74rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+} 
+/* 非当天：请假-奖励日 */
+.item[data-star="1"][data-status="2"] {
+  background: url(../img/star-clockIn2.png) no-repeat center center;
+  background-size: .6rem .74rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+
+
+
+
+/* 当天：未打卡-非奖励日 */
+.item-today[data-status="0"] {
+  background: url(../img/clockIn0.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+/* 当天：打卡-非奖励日 */
+.item-today[data-status="1"] {
+  background: url(../img/clockIn1.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+} 
+/* 当天：请假-非奖励日 */
+.item-today[data-status="2"] {
+  background: url(../img/clockIn2.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+
+
+/* 当天：未打卡-奖励日 */
+.item-today[data-star="1"][data-status="0"] {
+  background: url(../img/star-clockIn0.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
+/* 当天：打卡-奖励日 */
+.item-today[data-star="1"][data-status="1"] {
+  background: url(../img/star-clockIn1.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+} 
+/* 当天：请假-奖励日 */
+.item-today[data-star="1"][data-status="2"] {
+  background: url(../img/star-clockIn2.png) no-repeat center center;
+  background-size: .72rem .89rem;
+  text-shadow: 2px 0 0 #f4f3f3, 0 2px 0 #f4f3f3, -2px 0 0 #f4f3f3, 0 -2px 0 #f4f3f3;
+}
